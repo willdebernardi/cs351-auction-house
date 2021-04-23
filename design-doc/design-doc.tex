@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage{fullpage}
+\usepackage{siunitx} \input{common/moreunits} \usepackage{amsmath} % to get: {align} {alignat} \usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{enumitem} % to specify enumeration format
+\usepackage{multicol} % for lists in two columns
+\usepackage{tikz}
+\usetikzlibrary{arrows, shapes}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{positioning}
+\graphicspath{ {./images/} }
+
+\setlength{\parskip}{1em}
+
+% some values in this file should be overwritten by the lines below
+\input{common/defines} 
+%%                       START HERE
+%%
+%% THIS NEEDS TO BE HERE AND SET PROPERLY
+%% THE VERSION IN COMMON HEADERS WILL LOOK THE SAME AS THIS
+%% =========================================================
+\renewcommand{\theauthor}{Christopher Medlin, Will DeBernardi, Isaiah Martell}
+\renewcommand{\theemail}{cmedlin@unm.edu, wdebernardi@unm.edu, imartell@unm.edu}
+\renewcommand{\coursecode}{CS 351L}
+\renewcommand{\coursename}{Design of Large Programs}
+\renewcommand{\thetitle}{Project 5 Design}
+\renewcommand{\theduedate}{22 Apr 2021}
+%% ==========================================================
+\input{common/header}
+\begin{document}
+\thispagestyle{empty}
+\input{common/title}
+
+%% DOCUMENT CONTENT STARTS HERE
+%% ===========================================================
+
+\tikzset{line width=10pt}
+\tikzstyle{class} = [rectangle, draw,
+text width=5em, text centered, rounded corners, minimum height=2em,
+node distance=1.3cm and 1.7cm, minimum width=6em]
+\tikzstyle{object} = [rectangle, draw,
+text width=5em, text centered, minimum height=4em,
+node distance=1.3cm and 1.7cm, minimum width=6em]
+\tikzstyle{procedure} = [ellipse, draw, node distance=3cm,
+minimum height=2em]
+\tikzstyle{uses} = [draw, -{Latex[width=5pt, length=5pt]}]
+\tikzstyle{inherits} = [draw, -{Triangle[open, width=8pt, length=8pt]}]
+\tikzstyle{hasa} = [draw, -{Diamond[open, width=6pt, length=8pt]}]
+\tikzstyle{socket} = [draw, dashed, -{Latex[width=5pt, length=5pt]}]
+\usetikzlibrary{positioning}
+
+\section{Object Diagram}
+
+\textbf{NOTE:} dashed line implies cross-network communication
+
+\subsection{General Diagram for Server}
+
+\begin{center}
+\begin{tikzpicture}
+    \node[class] (Main) {Main};
+    \node[object, below =of Main] (Server) {Server};
+    \node[object, below =of Server] (Endpoints) {Set of Endpoints};
+    \node[object, below =of Endpoints] (Endpoint) {Endpoint};
+    \node[object, right =of Endpoint] (Response1) {Response};
+    \node[object, below =of Endpoint] (DataStore) {DataStore};
+    \node[object, left =of Endpoint] (OIS) {Object Input Stream};
+    \node[object, left =of DataStore] (Event) {Event};
+    \node[object, right =of DataStore] (Resources) {Set of Resources};
+    \node[object, left =of Endpoints] (Response2) {Response};
+    \node[object, left =of Main] (Request) {Request};
+    \node[object, left =of Request] (OOS) {Object Output Stream};
+    \node[object, left =of OIS] (Client) {Client};
+
+    \path[uses] (Main) -- (Server);
+    \path[hasa] (Server) -- (Endpoints);
+    \path[uses] (Endpoints) -- (Endpoint);
+    \path[uses] (Endpoint) -- node[below] {returns}(Response1);
+    \path[uses] (Response1) |- node[right] {to}(Server);
+    \path[uses] (Endpoint) -- (DataStore);
+    \path[uses] (DataStore) -- node[below] {sends}(Event);
+    \path[uses] (Event) -- node[right] {to}(OIS);
+    \path[uses] (Server) -| node[below right] {sends}(Response2);
+    \path[uses] (Response2) -- node[right] {to}(OIS);
+    \path[uses] (Server) -| node[above right] {reads}(Request);
+    \path[socket] (OOS) -- (Client);
+    \path[socket] (OIS) -- (Client);
+    \path[uses] (Request) -- node[above] {from}(OOS);
+    \path[uses] (DataStore) -- (Resources);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Diagram for Agent}
+
+\begin{center}
+\begin{tikzpicture}
+    \node[class] (Main) {Main};
+    \node[object, below left =of Main] (BidController) {Bid Controller};
+    \node[object, below right =of BidController] (BrowseController) {Browse Controller};
+    \node[object, right =of BrowseController] (Client) {Client};
+    \node[object, right =of Client] (Server) {Server};
+    \node[object, below =of BidController] (BidScene) {BidScene};
+    \node[object, below =of BrowseController] (BrowseScene) {Browse Scene};
+    
+    \path[uses] (Main) -- (BrowseController);
+    \path[uses] (Main) -| (BidController);
+    \path[hasa] (BrowseController) -- (Client);
+    \path[hasa] (BidController) -| (Client);
+    \path[uses] (BidController) -- (BidScene);
+    \path[uses] (BrowseController) -- (BrowseScene);
+    \path[socket] (Client) -- (Server);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Clarification}
+
+\begin{itemize}
+    \item{BrowseScene is for observing the list of items, and BidScene is for bidding on an item}
+    \item{Each Endpoint has a "URL" of sorts that is specified in the Request option, and the Server
+          will route a request to the desired endpoint and return the Response}
+    \item{A client can "listen" in on a specific resource in the DataStore, and they will be notified
+          upon that resource being changed with an Event object}
+\end{itemize} 
+
+\end{document}
