@@ -114,12 +114,71 @@ minimum height=2em]
 
 \subsection{Clarification}
 
+\begin{center}
 \begin{itemize}
+
     \item{BrowseScene is for observing the list of items, and BidScene is for bidding on an item}
     \item{Each Endpoint has a "URL" of sorts that is specified in the Request option, and the Server
           will route a request to the desired endpoint and return the Response}
     \item{A client can "listen" in on a specific resource in the DataStore, and they will be notified
           upon that resource being changed with an Event object}
+
 \end{itemize} 
+\end{center}
+
+\section{Endpoints}
+
+This section specifies each of the endpoints for the server API (for both the bank, the auction house, as well
+as one that will be shared by both [listen]). The parameters column contains the keys in the parameters hashmap
+in the Request object. The "Returns" column is the class that will returned as the data in the Response object.
+
+\subsection{Shared}
+
+\begin{center}
+\begin{tabular}{|| m{5 em} | m{15 em} | c | c | c ||}
+    \hline
+    Name & Description & URL & Parameters & Returns \\
+    \hline
+    \hline
+    Listen & Registers a client as a listener on a given resource & listen & url & null \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsection{Bank}
+
+\begin{center}
+\begin{tabular}{|| m{5 em} | m{15 em} | c | c | c ||}
+    \hline
+    Name & Description & URL & Parameters & Returns \\
+    \hline
+    \hline
+    Account Creation & Creates a new Account resource & accounts.create & name, funds & Account \\
+    \hline
+    Transfer & Transfers from one account (id1) to another (id2) & accounts.transfer & id1, id2, funds & null \\
+    \hline
+    Block & Blocks funds in an account & accounts.block & id, funds & null \\
+    \hline
+    Auction House Registration & Registers an auction house (storing IP and port) & auction.register & ip, port & AuctionHouse \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsection{Auction House}
+
+\begin{center}
+\begin{tabular}{|| m{5 em} | m{15 em} | c | c | c ||}
+    \hline
+    Name & Description & URL & Parameters & Returns \\
+    \hline
+    \hline
+    Item List & Returns the IDs of each of the items being auctioned & items.list & none & Set of Items \\
+    \hline
+    View Item & Returns the item with the specified id & items.get & id & Item \\
+    \hline
+    Bid & Makes a bid on a specified item & items.bid & id, funds & null \\
+    \hline
+\end{tabular}
+\end{center}
 
 \end{document}
