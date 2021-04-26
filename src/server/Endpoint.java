@@ -7,5 +7,7 @@
  */
 package server;
 
-public class Endpoint {
+@FunctionalInterface
+public interface Endpoint {
+    Response call(Request request);
 }
