@@ -1,7 +1,7 @@
 /**
  * Immutable response from a server to a client.
  *
- * @author Christopher Medlin, Will Debernardi, Isaac Martell
+ * @author Christopher Medlin, Will Debernardi, Isaiah Martell
  * @date 26 Apr 2021
  */
 package server;
