@@ -1,12 +1,13 @@
 /**
  * A request made to a server.
  *
- * @author Christopher Medlin, Will Debernardi, Isaac Martell
+ * @author Christopher Medlin, Will Debernardi, Isaiah Martell
  * @date 26 Apr 2021
  */
 package server;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class Request {
     // url of the destination endpoint
@@ -34,6 +35,10 @@ public class Request {
     public String getParameter(String key) {
 
         return "";
+    }
+
+    public Set<String> getParameterNames() {
+        return parameters.keySet();
     }
 
     public String getEndpointUrl() {
