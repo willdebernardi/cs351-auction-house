@@ -1,44 +1,28 @@
 /**
  * A request made to a server.
  *
- * @author Christopher Medlin, Will Debernardi, Isaiah Martell
+ * @author Christopher Medlin, Will Debernardi, Isaac Martell
  * @date 26 Apr 2021
  */
 package server;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 
 public class Request {
-
     // url of the destination endpoint
-    private String endpointURL;
+    private String endpoint;
     private HashMap<String, String> parameters;
 
     /**
      * Creates a new Request.
      *
-     * @param endpointURL the url of the destination endpoint
+     * @param endpoint the url of the destination endpoint
      * @param parameters alternating key, value pairs for the parameters
      * @throws IllegalArgumentException if an odd number of strings for the
      *                                  parameters is given
      */
-    public Request(String endpointURL, String... parameters)
-            throws IllegalArgumentException {
-        this.endpointURL = endpointURL;
-        //Check if the parameters length is even
-        if (parameters.length % 2 == 0) {
-            //Put key/value pair into hash map
-            for (int i = 0; i < parameters.length; i = i + 2) {
-                this.parameters.put(parameters[i], parameters[i + 1]);
-            }
-        }
-        else {
-            throw new IllegalArgumentException(
-                    "Parameters length must be even"
-            );
-        }
+    public Request(Endpoint endpoint, String... parameters) {
+
     }
 
     /**
@@ -48,23 +32,12 @@ public class Request {
      * @return
      */
     public String getParameter(String key) {
-        return parameters.get(key);
+
+        return "";
     }
 
-    /**
-     * Returns the url of the endpoint
-     *
-     * @return
-     */
     public String getEndpointUrl() {
-        return endpointURL;
-    }
 
-    /**
-     * Get the a list of all the parameter names
-     * @return  List of parameters
-     */
-    public Set<String> getParameterNames() {
-        return parameters.keySet();
+        return "";
     }
 }
