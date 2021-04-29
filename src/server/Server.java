@@ -11,6 +11,8 @@ import java.util.concurrent.Executors;
 
 /**
  *
+ * The server itself.
+ *
  * @author Isaiah Martell, Christopher Medlin, Will Debernardi
  * @date 26 Apr 2021
  */
@@ -88,12 +90,20 @@ public class Server {
         endpoints.put(url, endpoint);
     }
 
+    /**
+     * Runnable that passes the request to the proper endpoint
+     * and then returns a response to the client
+     */
     private class ClientHandler implements Runnable {
 
         private Socket clientConnection;
         private ObjectInputStream io;
         private ObjectOutputStream os;
 
+        /**
+         * Creates a new client handler runnable
+         * @param clientSocket  The client connection
+         */
         public ClientHandler(Socket clientSocket) {
             try {
                 this.clientConnection = clientSocket;
@@ -113,22 +123,33 @@ public class Server {
         public void run() {
             while (clientConnection.isClosed()) {
                 try {
+                    //Validate the object (check if request)
                     Object object = io.readObject();
                     if (object instanceof Request) {
                         errorMessage("Object not request");
                     }
-                    Request r = (Request) object;
-                    if (!endpoints.containsKey(r.getEndpointUrl())) {
+                    //Convert object to a request object
+                    Request request = (Request) object;
+                    //Validate the endpoint
+                    if (!endpoints.containsKey(request.getEndpointUrl())) {
                         errorMessage("Invalid endpoint");
                     }
-                    Endpoint endpoint = endpoints.get(r.getEndpointUrl());
-                    os.writeObject(endpoint.call(r));
+                    //Pass the request to the proper endpoint and return
+                    //response to client
+                    Endpoint endpoint = endpoints
+                            .get(request.getEndpointUrl());
+                    os.writeObject(endpoint.call(request));
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }
         }
 
+        /**
+         * Utility method that gives an error response
+         * @param msg  The message attached with the error
+         * @throws IOException
+         */
         private void errorMessage(String msg) throws IOException {
             os.writeObject(new Response(msg, null, Response.Type.ERROR));
         }

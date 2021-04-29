@@ -25,14 +25,16 @@ public class Request {
     public Request(String endpointURL, String... parameters)
             throws IllegalArgumentException {
         this.endpointURL = endpointURL;
+        //Check if the parameters length is even
         if (parameters.length % 2 == 0) {
+            //Put key/value pair into hash map
             for (int i = 0; i < parameters.length; i = i + 2) {
                 this.parameters.put(parameters[i], parameters[i + 1]);
             }
         }
         else {
             throw new IllegalArgumentException(
-                    "Paramaters length must be even"
+                    "Parameters length must be even"
             );
         }
     }
