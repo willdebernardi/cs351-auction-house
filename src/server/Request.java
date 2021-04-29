@@ -6,7 +6,9 @@
  */
 package server;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Request {
 
@@ -56,5 +58,13 @@ public class Request {
      */
     public String getEndpointUrl() {
         return endpointURL;
+    }
+
+    /**
+     * Get the a list of all the parameter names
+     * @return  List of parameters
+     */
+    public Set<String> getParameterNames() {
+        return parameters.keySet();
     }
 }
