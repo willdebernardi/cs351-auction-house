@@ -1,7 +1,7 @@
 /**
  * A request made to a server.
  *
- * @author Christopher Medlin, Will Debernardi, Isaac Martell
+ * @author Christopher Medlin, Will Debernardi, Isaiah Martell
  * @date 26 Apr 2021
  */
 package server;
@@ -9,20 +9,32 @@ package server;
 import java.util.HashMap;
 
 public class Request {
+
     // url of the destination endpoint
-    private String endpoint;
+    private String endpointURL;
     private HashMap<String, String> parameters;
 
     /**
      * Creates a new Request.
      *
-     * @param endpoint the url of the destination endpoint
+     * @param endpointURL the url of the destination endpoint
      * @param parameters alternating key, value pairs for the parameters
      * @throws IllegalArgumentException if an odd number of strings for the
      *                                  parameters is given
      */
-    public Request(Endpoint endpoint, String... parameters) {
-
+    public Request(String endpointURL, String... parameters)
+            throws IllegalArgumentException {
+        this.endpointURL = endpointURL;
+        if (parameters.length % 2 == 0) {
+            for (int i = 0; i < parameters.length; i = i + 2) {
+                this.parameters.put(parameters[i], parameters[i + 1]);
+            }
+        }
+        else {
+            throw new IllegalArgumentException(
+                    "Paramaters length must be even"
+            );
+        }
     }
 
     /**
@@ -32,12 +44,15 @@ public class Request {
      * @return
      */
     public String getParameter(String key) {
-
-        return "";
+        return parameters.get(key);
     }
 
+    /**
+     * Returns the url of the endpoint
+     *
+     * @return
+     */
     public String getEndpointUrl() {
-
-        return "";
+        return endpointURL;
     }
 }
