@@ -83,8 +83,7 @@ public class DataStore {
         if (r == null) {
             throw new IllegalArgumentException("Resource does not exist.");
         }
-        //TODO uncomment once Resource is done
-        //r.registerListener(id);
+        r.registerListener(id, listener);
     }
 
     /**
@@ -96,10 +95,9 @@ public class DataStore {
      */
     public Resource getResource(String name) {
         for (Resource r : resourceSet) {
-            //TODO uncomment once Resource is done
-            //if (r.getName() == name) {
+            if (r.getName() == name) {
                 return r;
-            //}
+            }
         }
         return null;
     }
