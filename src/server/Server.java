@@ -81,11 +81,10 @@ public class Server {
      * Registers a new endpoint for the server, to be specified by the endpoint
      * URL in a Request object when a Client makes a request.
      *
-     * @param url the url of the endpoint
      * @param endpoint the endpoint
      */
-    public void addEndpoint(String url, Endpoint endpoint) {
-        endpoints.put(url, endpoint);
+    public void addEndpoint(Endpoint endpoint) {
+        endpoints.put(endpoint.getUrl(), endpoint);
     }
 
     private class ClientHandler implements Runnable {
