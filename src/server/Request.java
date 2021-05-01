@@ -51,7 +51,7 @@ public class Request {
     /**
      * Returns the url of the endpoint
      *
-     * @return
+     * @return url of endpoint
      */
     public String getEndpointUrl() {
         return endpointURL;
