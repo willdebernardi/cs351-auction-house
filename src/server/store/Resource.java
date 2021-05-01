@@ -29,7 +29,7 @@ public class Resource<T> {
      *
      * @return the ID of the newly created Resource.
      */
-    public int create() {
+    public synchronized int create() {
        this.resources.add(creator.get());
        this.listeners.add(new HashSet<>());
        return resources.size()-1;
@@ -51,13 +51,13 @@ public class Resource<T> {
      * @param id id of the resource
      * @param r updated resource
      */
-    public void putResource(int id, T r) {
+    public synchronized void putResource(int id, T r) {
         this.resources.set(id, r);
 
         // notify listeners of the change
-        for (Listener l : this.listeners.get(id)) {
-            l.notify(new Event(id, name));
-        }
+        // if the listener fails to be notified (if l.notify returns false),
+        // remove it from the set of listeners
+        this.listeners.get(id).removeIf(l -> !l.notify(new Event(id, name)));
     }
 
     /**
@@ -65,7 +65,7 @@ public class Resource<T> {
      *
      * @param id id of the resource
      */
-    public void removeResource(int id) {
+    public synchronized void removeResource(int id) {
         this.resources.remove(id);
     }
 
@@ -75,7 +75,7 @@ public class Resource<T> {
      * @param id id of the resource
      * @param listener the listener
      */
-    public void registerListener(int id, Listener listener) {
+    public synchronized void registerListener(int id, Listener listener) {
         this.listeners.get(id).add(listener);
     }
 

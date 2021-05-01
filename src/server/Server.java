@@ -1,5 +1,8 @@
 package server;
 
+import server.store.DataStore;
+import server.store.Listener;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -110,13 +113,19 @@ public class Server {
 
         @Override
         public void run() {
-            while (clientConnection.isClosed()) {
+            while (!clientConnection.isClosed()) {
                 try {
                     Object object = io.readObject();
-                    if (object instanceof Request) {
+                    if (!(object instanceof Request)) {
                         errorMessage("Object not request");
                     }
                     Request r = (Request) object;
+
+                    if (r.getEndpointUrl() == "listen") {
+                        listen(r);
+                        continue;
+                    }
+
                     if (!endpoints.containsKey(r.getEndpointUrl())) {
                         errorMessage("Invalid endpoint");
                     }
@@ -130,6 +139,20 @@ public class Server {
 
         private void errorMessage(String msg) throws IOException {
             os.writeObject(new Response(msg, null, Response.Type.ERROR));
+        }
+
+        private void listen(Request r) {
+            Listener l = new Listener(clientConnection);
+            try {
+                DataStore ds = DataStore.getInstance();
+                ds.registerListener(r.getParameter("url"), l);
+            } catch (IllegalArgumentException e) {
+                try {
+                    errorMessage(e.getMessage());
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                }
+            }
         }
     }
 }
