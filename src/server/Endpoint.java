@@ -7,11 +7,13 @@
  */
 package server;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
-public abstract class Endpoint {
+public class Endpoint {
     private Set<String> requiredParameters;
-    private RequestHandler rh;
+    private Function<Request, Response> rh;
     private String url;
 
     /**
@@ -22,9 +24,12 @@ public abstract class Endpoint {
      *           request to this endpoint.
      * @param url the url of this endpoint
      */
-    public Endpoint(Set<String> requiredParameters, RequestHandler rh,
-                    String url) {
-        this.requiredParameters = requiredParameters;
+    public Endpoint(String url, Function<Request, Response> rh,
+                    String... requiredParameters) {
+        this.requiredParameters = new HashSet<>();
+        for (String s : requiredParameters) {
+            this.requiredParameters.add(s);
+        }
         this.rh = rh;
         this.url = url;
     }
@@ -45,6 +50,13 @@ public abstract class Endpoint {
                                 Response.Type.ERROR);
         }
         // call the request handler
-        return rh.handle(request);
+        return rh.apply(request);
+    }
+
+    /**
+     * @return the url of the endpoint
+     */
+    public String getUrl() {
+        return url;
     }
 }
