@@ -11,7 +11,7 @@ import java.util.HashSet;
 public class BankMain {
     public static void main(String[] args) {
         DataStore.instantiate(new Resource<Account>("accounts",
-                () -> new Account("", 0)));
+                () -> new Account("", 0, 0)));
 
         Server server = new Server(37281);
 
