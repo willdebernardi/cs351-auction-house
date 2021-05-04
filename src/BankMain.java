@@ -1,7 +1,9 @@
-import com.sun.jdi.connect.LaunchingConnector;
 import endpoints.AccountsCreate;
 import endpoints.AuctionsCreate;
 import endpoints.AuctionsList;
+import endpoints.Block;
+import endpoints.Transfer;
+import endpoints.Unblock;
 import resources.Account;
 import resources.Auction;
 import server.Endpoint;
@@ -9,15 +11,13 @@ import server.Server;
 import server.store.DataStore;
 import server.store.Resource;
 
-import javax.xml.crypto.Data;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashSet;
 
 public class BankMain {
     public static void main(String[] args) {
         Resource accounts = new Resource<Account>("accounts",
-                () -> new Account("", 0));
+                () -> new Account("", 0, 0));
 
         Resource auctions = null;
         try {
@@ -38,6 +38,12 @@ public class BankMain {
                 new AuctionsCreate(), "ip", "port"));
         server.addEndpoint(new Endpoint("auctions.list",
                 new AuctionsList()));
+        server.addEndpoint(new Endpoint("accounts.transfer",
+                new Transfer(), "id1", "id2", "funds"));
+        server.addEndpoint(new Endpoint("accounts.block",
+                new Block(), "id", "funds"));
+        server.addEndpoint(new Endpoint("accounts.unblock",
+                new Unblock(), "id"));
 
         server.run();
     }
