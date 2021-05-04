@@ -1,4 +1,7 @@
 import endpoints.AccountsCreate;
+import endpoints.Block;
+import endpoints.Transfer;
+import endpoints.Unblock;
 import resources.Account;
 import server.Endpoint;
 import server.Server;
@@ -17,6 +20,12 @@ public class BankMain {
 
         server.addEndpoint(new Endpoint("accounts.create",
                 new AccountsCreate(), "name", "funds"));
+        server.addEndpoint(new Endpoint("accounts.transfer",
+                new Transfer(), "id1", "id2", "funds"));
+        server.addEndpoint(new Endpoint("accounts.block",
+                new Block(), "id", "funds"));
+        server.addEndpoint(new Endpoint("accounts.unblock",
+                new Unblock(), "id"));
 
         server.run();
     }
