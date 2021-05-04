@@ -85,4 +85,11 @@ public class Resource<T> {
     public String getName() {
         return name;
     }
+
+    /**
+     * @return all of the particulars of this resource.
+     */
+    public Set<T> list() {
+        return new HashSet<>(this.resources);
+    }
 }

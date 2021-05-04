@@ -1,5 +1,7 @@
 import com.sun.jdi.connect.LaunchingConnector;
 import endpoints.AccountsCreate;
+import endpoints.AuctionsCreate;
+import endpoints.AuctionsList;
 import resources.Account;
 import resources.Auction;
 import server.Endpoint;
@@ -32,6 +34,10 @@ public class BankMain {
 
         server.addEndpoint(new Endpoint("accounts.create",
                 new AccountsCreate(), "name", "funds"));
+        server.addEndpoint(new Endpoint("auctions.create",
+                new AuctionsCreate(), "ip", "port"));
+        server.addEndpoint(new Endpoint("auctions.list",
+                new AuctionsList()));
 
         server.run();
     }
