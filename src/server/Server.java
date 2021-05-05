@@ -32,6 +32,7 @@ public class Server {
     public Server(int port) {
         try {
             serverSocket = new ServerSocket(port);
+            endpoints = new HashMap<>();
         }
         catch (IOException ex) {
             System.out.println("Error creating server");
@@ -99,11 +100,11 @@ public class Server {
         public ClientHandler(Socket clientSocket) {
             try {
                 this.clientConnection = clientSocket;
-                this.io = new ObjectInputStream(
-                        this.clientConnection.getInputStream()
-                );
                 this.os = new ObjectOutputStream(
                         this.clientConnection.getOutputStream()
+                );
+                this.io = new ObjectInputStream(
+                        this.clientConnection.getInputStream()
                 );
             }
             catch (IOException e) {

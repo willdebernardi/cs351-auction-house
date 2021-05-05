@@ -6,7 +6,9 @@
  */
 package server;
 
-public class Response {
+import java.io.Serializable;
+
+public class Response implements Serializable {
     public enum Type {
         OK, ERROR, NOTFOUND
     }
@@ -31,5 +33,14 @@ public class Response {
 
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "message='" + message + '\'' +
+                ", data=" + data +
+                ", type=" + type +
+                '}';
     }
 }

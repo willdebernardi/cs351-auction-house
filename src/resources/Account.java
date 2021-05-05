@@ -1,8 +1,9 @@
 package resources;
 
+import java.io.Serializable;
 import java.nio.file.Paths;
 
-public class Account {
+public class Account implements Serializable {
     private String name;
     private int funds;
     private int blocked;

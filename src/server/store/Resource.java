@@ -23,6 +23,7 @@ public class Resource<T> {
     public Resource(String name, Supplier<T> creator) {
         this.resources = new HashMap<>();
         this.listeners = new HashMap<>();
+        this.creator = creator;
         this.name = name;
     }
 

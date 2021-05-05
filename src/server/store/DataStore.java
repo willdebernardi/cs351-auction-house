@@ -5,6 +5,7 @@
  */
 package server.store;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class DataStore {
@@ -39,6 +40,7 @@ public class DataStore {
     }
 
     private DataStore(Resource... resources) {
+        resourceSet = new HashSet<>();
         for (Resource r : resources) {
             addResource(r);
         }
