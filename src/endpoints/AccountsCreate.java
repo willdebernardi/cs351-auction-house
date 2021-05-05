@@ -29,6 +29,6 @@ public class AccountsCreate implements Function<Request, Response> {
                 funds, 0
         ));
 
-        return new Response("", accounts.getResource(id), Response.Type.OK);
+        return new Response("", id, Response.Type.OK);
     }
 }

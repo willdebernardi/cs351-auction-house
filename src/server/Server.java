@@ -3,6 +3,7 @@ package server;
 import server.store.DataStore;
 import server.store.Listener;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -116,23 +117,30 @@ public class Server {
         public void run() {
             while (!clientConnection.isClosed()) {
                 try {
-                    Object object = io.readObject();
+                    Object object = null;
+                    try {
+                        object = io.readObject();
+                    } catch (Exception e) {
+                        break;
+                    }
+
                     if (!(object instanceof Request)) {
                         errorMessage("Object not request");
                     }
                     Request r = (Request) object;
 
-                    if (r.getEndpointUrl() == "listen") {
+                    if (r.getEndpointUrl().equals("listen")) {
                         listen(r);
                         continue;
                     }
 
                     if (!endpoints.containsKey(r.getEndpointUrl())) {
                         errorMessage("Invalid endpoint");
+                        continue;
                     }
                     Endpoint endpoint = endpoints.get(r.getEndpointUrl());
                     os.writeObject(endpoint.call(r));
-                } catch (IOException | ClassNotFoundException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -143,7 +151,7 @@ public class Server {
         }
 
         private void listen(Request r) {
-            Listener l = new Listener(clientConnection);
+            Listener l = new Listener(this.os);
             try {
                 DataStore ds = DataStore.getInstance();
                 ds.registerListener(r.getParameter("url"), l);

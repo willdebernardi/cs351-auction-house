@@ -13,7 +13,7 @@ public class Resource<T> {
     private HashMap<Integer, Set<Listener>> listeners;
     private Supplier<T> creator;
     private String name;
-    private static int highestId;
+    private int highestId;
 
     /**
      * Creates a new Resource
@@ -25,6 +25,7 @@ public class Resource<T> {
         this.listeners = new HashMap<>();
         this.creator = creator;
         this.name = name;
+        this.highestId = 1;
     }
 
     /**
@@ -33,9 +34,9 @@ public class Resource<T> {
      * @return the ID of the newly created Resource.
      */
     public synchronized int create() {
-       this.resources.put(++highestId, creator.get());
-       this.listeners.put(highestId, new HashSet<>());
-       return resources.size()-1;
+        this.resources.put(highestId++, creator.get());
+        this.listeners.put(highestId-1, new HashSet<>());
+        return highestId-1;
     }
 
     /**

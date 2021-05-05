@@ -67,21 +67,19 @@ public class Client {
 
     public void listenToInputStream() {
         while (!clientSocket.isClosed()) {
+            Object obj = null;
             try {
-                Object obj = io.readObject();
-                if (obj instanceof Event) {
-                    onEvent.accept((Event) obj);
-                }
-                else if (obj instanceof Response) {
-                    onResponse.accept((Response) obj);
-                }
-                else {
-                    System.out.println("Object not response or event");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                obj = io.readObject();
+            } catch (Exception e) {
+                break;
+            }
+
+            if (obj instanceof Event) {
+                onEvent.accept((Event) obj);
+            } else if (obj instanceof Response) {
+                onResponse.accept((Response) obj);
+            } else {
+                System.out.println("Object not response or event");
             }
         }
     }

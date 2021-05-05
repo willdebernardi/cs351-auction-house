@@ -16,12 +16,8 @@ public class Listener {
      *
      * @param s the socket to send Events to.
      */
-    public Listener(Socket s) {
-        try {
-            this.out = new ObjectOutputStream(s.getOutputStream());
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Socket already closed.");
-        }
+    public Listener(ObjectOutputStream out) {
+        this.out = out;
     }
 
     /**
@@ -31,7 +27,7 @@ public class Listener {
      * @return true if the listener received the event, false if an error
      *         occurred.
      */
-    public boolean notify(Event e) {
+    public synchronized boolean notify(Event e) {
         try {
             this.out.writeObject(e);
         } catch (IOException exc) {
