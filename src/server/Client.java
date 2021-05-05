@@ -26,27 +26,21 @@ public class Client {
     private Consumer<Response> onResponse;
 
     public Client(InetAddress ipAddress, int port) {
+        this.onEvent = (r) -> {};
+        this.onResponse = (r) -> {};
+        this.ipAddress = ipAddress;
+        this.port = port;
+    }
+
+    public void connect() {
         try {
-            this.onEvent = (r) -> {};
-            this.onResponse = (r) -> {};
-            this.ipAddress = ipAddress;
-            this.port = port;
+            this.clientSocket = new Socket(this.ipAddress, this.port);
             this.os = new ObjectOutputStream(
                     this.clientSocket.getOutputStream()
             );
             this.io = new ObjectInputStream(
                     this.clientSocket.getInputStream()
             );
-        }
-        catch (IOException ex) {
-            System.out.println("Error creating client");
-            ex.printStackTrace();
-        }
-    }
-
-    public void connect() {
-        try {
-            this.clientSocket = new Socket(this.ipAddress, this.port);
         } catch (IOException e) {
             e.printStackTrace();
         }

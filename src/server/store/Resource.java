@@ -21,6 +21,7 @@ public class Resource<T> {
     public Resource(String name, Supplier<T> creator) {
         this.resources = new ArrayList<>();
         this.listeners = new ArrayList<>();
+        this.creator = creator;
         this.name = name;
     }
 

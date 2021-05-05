@@ -6,10 +6,11 @@
  */
 package server;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 
-public class Request {
+public class Request implements Serializable {
 
     // url of the destination endpoint
     private String endpointURL;
@@ -36,6 +37,12 @@ public class Request {
                     "Parameters length must be even"
             );
         }
+    }
+
+
+    public Request(String endpointURL, HashMap<String,String> parameters) {
+        this.endpointURL = endpointURL;
+        this.parameters = parameters;
     }
 
     /**

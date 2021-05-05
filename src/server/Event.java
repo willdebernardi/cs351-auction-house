@@ -5,7 +5,9 @@
  */
 package server;
 
-public class Event {
+import java.io.Serializable;
+
+public class Event implements Serializable {
     private int changedID;
     private String resourceName;
 
@@ -31,5 +33,13 @@ public class Event {
      */
     public String getResourceName() {
         return resourceName;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "changedID=" + changedID +
+                ", resourceName='" + resourceName + '\'' +
+                '}';
     }
 }
