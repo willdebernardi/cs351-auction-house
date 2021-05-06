@@ -67,7 +67,7 @@ public class DataStore {
      */
     public void registerListener(String url, Listener listener)
     throws IllegalArgumentException {
-        String[] split = url.split(".");
+        String[] split = url.split("\\.");
         int id = -1;
         if (split.length != 2) {
             throw new IllegalArgumentException(
@@ -75,7 +75,7 @@ public class DataStore {
             );
         }
         try {
-            id = Integer.parseInt(split[2]);
+            id = Integer.parseInt(split[1]);
         } catch (Exception e) {
             throw new IllegalArgumentException(
                     "Invalid resource ID."
@@ -97,7 +97,7 @@ public class DataStore {
      */
     public Resource getResource(String name) {
         for (Resource r : resourceSet) {
-            if (r.getName() == name) {
+            if (r.getName().equals(name)) {
                 return r;
             }
         }

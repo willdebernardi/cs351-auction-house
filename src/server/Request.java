@@ -27,6 +27,7 @@ public class Request implements Serializable {
     public Request(String endpointURL, String... parameters)
             throws IllegalArgumentException {
         this.endpointURL = endpointURL;
+        this.parameters = new HashMap<>();
         if (parameters.length % 2 == 0) {
             for (int i = 0; i < parameters.length; i = i + 2) {
                 this.parameters.put(parameters[i], parameters[i + 1]);

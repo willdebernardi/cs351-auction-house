@@ -11,8 +11,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public class Client {
@@ -25,11 +28,19 @@ public class Client {
     private Consumer<Event> onEvent;
     private Consumer<Response> onResponse;
 
+    private CountDownLatch receivedSignal;
+    // is set to false when a request is sent, and then set to true when a
+    // response is received
+    private AtomicBoolean received;
+    private Response response;
+
     public Client(InetAddress ipAddress, int port) {
         this.onEvent = (r) -> {};
         this.onResponse = (r) -> {};
         this.ipAddress = ipAddress;
         this.port = port;
+        this.receivedSignal = new CountDownLatch(1);
+        this.received = new AtomicBoolean(false);
     }
 
     public void connect() {
@@ -50,6 +61,7 @@ public class Client {
     }
 
     public void sendRequest(Request r) {
+        received.set(false);
         try {
             os.writeObject(r);
         } catch (IOException e) {
@@ -65,23 +77,44 @@ public class Client {
         this.onResponse = onResponse;
     }
 
+    /**
+     * Waits until a response has been received, then passes to onResponse.
+     * @param onResponse the function to be called once a response is received
+     */
+    public void waitForResponse(Consumer<Response> onResponse) {
+        if (this.received.get()) {
+            onResponse.accept(response);
+            return;
+        }
+        // wait for the countdown latch to signal
+        try {
+            receivedSignal.await();
+            onResponse.accept(this.response);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void listenToInputStream() {
         while (!clientSocket.isClosed()) {
+            Object obj = null;
             try {
-                Object obj = io.readObject();
-                if (obj instanceof Event) {
-                    onEvent.accept((Event) obj);
-                }
-                else if (obj instanceof Response) {
-                    onResponse.accept((Response) obj);
-                }
-                else {
-                    System.out.println("Object not response or event");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                obj = io.readObject();
+            } catch (Exception e) {
+                break;
+            }
+
+            if (obj instanceof Event) {
+                onEvent.accept((Event) obj);
+            } else if (obj instanceof Response) {
+                this.response = (Response) obj;
+                received.set(true);
+                // signal to main thread that a response has been received
+                // incase waitForResponse is being used.
+                receivedSignal.countDown();
+                onResponse.accept((Response) obj);
+            } else {
+                System.out.println("Object not response or event");
             }
         }
     }
