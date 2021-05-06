@@ -7,6 +7,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -90,6 +91,14 @@ public class Server {
      */
     public void addEndpoint(Endpoint endpoint) {
         endpoints.put(endpoint.getUrl(), endpoint);
+    }
+
+    public InetAddress getAddress() {
+        return serverSocket.getInetAddress();
+    }
+
+    public int getPort() {
+        return serverSocket.getLocalPort();
     }
 
     private class ClientHandler implements Runnable {
