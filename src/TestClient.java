@@ -1,6 +1,7 @@
 import server.Client;
 import server.Endpoint;
 import server.Request;
+import server.Response;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -21,8 +22,18 @@ public class TestClient {
             }
         }
         client.connect();
+
+        // create account
+        client.sendRequest(new Request("accounts.create",
+                "name", "testing", "funds", "100000"));
+        client.waitForResponse((r) -> {
+            System.out.printf("Account ID: %d%n", (int) r.getData());
+        });
+
+        // print out events and responses
         client.setOnEvent(System.out::println);
         client.setOnResponse(System.out::println);
+
         Scanner scanner = new Scanner(System.in);
         String inputURL;
         System.out.println("Type endpoint URL");
