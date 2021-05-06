@@ -3,15 +3,17 @@ package server.store;
 import server.Event;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
 
 public class Resource<T> {
-    private ArrayList<T> resources;
-    private ArrayList<Set<Listener>> listeners;
+    private HashMap<Integer, T> resources;
+    private HashMap<Integer, Set<Listener>> listeners;
     private Supplier<T> creator;
     private String name;
+    private int highestId;
 
     /**
      * Creates a new Resource
@@ -19,9 +21,11 @@ public class Resource<T> {
      *                of type T
      */
     public Resource(String name, Supplier<T> creator) {
-        this.resources = new ArrayList<>();
-        this.listeners = new ArrayList<>();
+        this.resources = new HashMap<>();
+        this.listeners = new HashMap<>();
+        this.creator = creator;
         this.name = name;
+        this.highestId = 1;
     }
 
     /**
@@ -30,9 +34,9 @@ public class Resource<T> {
      * @return the ID of the newly created Resource.
      */
     public synchronized int create() {
-       this.resources.add(creator.get());
-       this.listeners.add(new HashSet<>());
-       return resources.size()-1;
+        this.resources.put(highestId++, creator.get());
+        this.listeners.put(highestId-1, new HashSet<>());
+        return highestId-1;
     }
 
     /**
@@ -52,7 +56,7 @@ public class Resource<T> {
      * @param r updated resource
      */
     public synchronized void putResource(int id, T r) {
-        this.resources.set(id, r);
+        this.resources.put(id, r);
 
         // notify listeners of the change
         // if the listener fails to be notified (if l.notify returns false),
@@ -67,6 +71,7 @@ public class Resource<T> {
      */
     public synchronized void removeResource(int id) {
         this.resources.remove(id);
+        this.listeners.remove(id);
     }
 
     /**
@@ -90,6 +95,6 @@ public class Resource<T> {
      * @return all of the particulars of this resource.
      */
     public Set<T> list() {
-        return new HashSet<>(this.resources);
+        return new HashSet<>(this.resources.values());
     }
 }

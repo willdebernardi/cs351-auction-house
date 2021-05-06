@@ -26,9 +26,9 @@ public class AccountsCreate implements Function<Request, Response> {
         int id = accounts.create();
         accounts.putResource(id, new Account(
                 request.getParameter("name"),
-                funds
+                funds, 0
         ));
 
-        return new Response("", accounts.getResource(id), Response.Type.OK);
+        return new Response("", id, Response.Type.OK);
     }
 }
