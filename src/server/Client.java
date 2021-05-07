@@ -79,20 +79,19 @@ public class Client {
 
     /**
      * Waits until a response has been received, then passes to onResponse.
-     * @param onResponse the function to be called once a response is received
      */
-    public void waitForResponse(Consumer<Response> onResponse) {
+    public Response waitForResponse() {
         if (this.received.get()) {
-            onResponse.accept(response);
-            return;
+            return this.response;
         }
         // wait for the countdown latch to signal
         try {
             receivedSignal.await();
-            onResponse.accept(this.response);
+            return this.response;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public void listenToInputStream() {
