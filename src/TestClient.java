@@ -26,9 +26,8 @@ public class TestClient {
         // create account
         client.sendRequest(new Request("accounts.create",
                 "name", "testing", "funds", "100000"));
-        client.waitForResponse((r) -> {
-            System.out.printf("Account ID: %d%n", (int) r.getData());
-        });
+        Response r = client.waitForResponse();
+        System.out.printf("Account ID: %d%n", (int) r.getData());
 
         // print out events and responses
         client.setOnEvent(System.out::println);
