@@ -19,8 +19,10 @@ public class ItemTimer extends TimerTask {
     @Override
     public void run() {
         Resource<Item> items = DataStore.getInstance().getResource("items");
+        Resource<Integer> auctionId = DataStore.getInstance().getResource("auctionId");
         Item item = items.getResource(itemId);
         if(funds == item.getHighestBid()) {
+
             item = item.newWinner(accountId);
             items.putResource(itemId, item);
         }

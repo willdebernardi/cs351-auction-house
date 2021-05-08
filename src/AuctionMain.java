@@ -1,10 +1,7 @@
 import endpoints.ItemView;
 import endpoints.ItemsList;
 import resources.Item;
-import server.Client;
-import server.Endpoint;
-import server.Request;
-import server.Server;
+import server.*;
 import server.store.DataStore;
 import server.store.Resource;
 
@@ -29,10 +26,15 @@ public class AuctionMain {
         String hostPort = String.valueOf(server.getPort());
         client.connect();
         client.sendRequest(new Request("auctions.create",
-                hostAddress, hostPort));
+                "ip", hostAddress, "port", hostPort));
+        Response r = client.waitForResponse();
 
         Resource items = new Resource<Item>("items",
-                () -> new Item("",0 ,-1));
+                () -> new Item("",0 ,-1, -1));
+        Resource auctionAccountId = new Resource<Integer>("auctionId",
+                () -> 0);
+        int id = auctionAccountId.create();
+        auctionAccountId.putResource(id, r.getData());
 
         DataStore.instantiate(items);
 
