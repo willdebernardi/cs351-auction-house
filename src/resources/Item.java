@@ -13,11 +13,11 @@ public class Item {
         this.winnerId  = winnerId;
     }
 
-    public Item placeBid(int amount) {
+    public Item placeBid(int amount, int bidderId) {
         if (amount < this.highestBid) {
             throw new IllegalStateException("Bid too low.");
         }
-        return new Item(this.name, amount, this.bidderId, this.winnerId);
+        return new Item(this.name, amount, bidderId, this.winnerId);
     }
 
     public Item newWinner(int winnerId) {
@@ -30,5 +30,9 @@ public class Item {
 
     public int getHighestBid() {
         return highestBid;
+    }
+
+    public int getBidderId() {
+        return bidderId;
     }
 }

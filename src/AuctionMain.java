@@ -1,3 +1,4 @@
+import endpoints.Bid;
 import endpoints.ItemView;
 import endpoints.ItemsList;
 import resources.Item;
@@ -12,17 +13,20 @@ public class AuctionMain {
     public static void main(String[] args) {
         Server server = new Server(44596);
         Client client = null;
+        InetAddress address = null;
+        int port = 0;
         if (args.length == 2) {
             try {
-                InetAddress address = InetAddress.getByName(args[0]);
-                int port = Integer.parseInt(args[1]);
+                address = InetAddress.getByName(args[0]);
+                port = Integer.parseInt(args[1]);
                 client = new Client(address,port);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
+                System.exit(1);
             }
         }
-        InetAddress address = server.getAddress();
-        String hostAddress = address.getHostAddress();
+        InetAddress serverAddress = server.getAddress();
+        String hostAddress = serverAddress.getHostAddress();
         String hostPort = String.valueOf(server.getPort());
         client.connect();
         client.sendRequest(new Request("auctions.create",
@@ -42,5 +46,7 @@ public class AuctionMain {
                 new ItemView(), "id"));
         server.addEndpoint(new Endpoint("items.list",
                 new ItemsList()));
+        server.addEndpoint(new Endpoint("items.bid",
+                new Bid(address, port)));
     }
 }
