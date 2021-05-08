@@ -1,8 +1,9 @@
 package resources;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 
-public class Auction {
+public class Auction implements Serializable {
     private InetAddress ip;
     private int port;
 
@@ -33,5 +34,10 @@ public class Auction {
      */
     public int getPort() {
         return port;
+    }
+
+    @Override
+    public String toString() {
+        return ip.toString();
     }
 }
