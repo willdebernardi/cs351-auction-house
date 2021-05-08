@@ -30,6 +30,7 @@ public class MainController {
      */
     public void connectToAuction(InetAddress host, int port) {
         this.auctionClient = new Client(host, port);
+        this.auctionClient.connect();
     }
 
     /**
@@ -37,6 +38,7 @@ public class MainController {
      */
     public void connectToBank(InetAddress host, int port) {
         this.bankClient = new Client(host, port);
+        this.bankClient.connect();
     }
 
     /**
