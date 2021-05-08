@@ -1,11 +1,13 @@
 import endpoints.Bid;
 import endpoints.ItemView;
 import endpoints.ItemsList;
+import resources.Auction;
 import resources.Item;
 import server.*;
 import server.store.DataStore;
 import server.store.Resource;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.InetAddress;
@@ -17,11 +19,11 @@ import java.util.Scanner;
 
 public class AuctionMain {
     public static void main(String[] args) {
-        Server server = new Server(44596);
         Client client = null;
         InetAddress address = null;
         int port = 0;
-        if (args.length == 2) {
+        int serverPort = 0;
+        if (args.length == 3) {
             try {
                 address = InetAddress.getByName(args[0]);
                 port = Integer.parseInt(args[1]);
@@ -30,7 +32,10 @@ public class AuctionMain {
                 e.printStackTrace();
                 System.exit(1);
             }
+            serverPort = Integer.parseInt(args[2]);
         }
+
+        Server server = new Server(serverPort);
         InetAddress serverAddress = server.getAddress();
         String hostAddress = serverAddress.getHostAddress();
         String hostPort = String.valueOf(server.getPort());
@@ -63,10 +68,12 @@ public class AuctionMain {
         FileInputStream nouns = null;
         FileInputStream adjectives = null;
         try {
-            nouns = new FileInputStream(String.valueOf(
-                    AuctionMain.class.getResource("/resources/nouns.txt")));
-            adjectives = new FileInputStream(String.valueOf(
-                    AuctionMain.class.getResource("/resources/adjectives.txt")));
+            nouns = new FileInputStream(
+                    AuctionMain.class.getResource("nouns.txt").getFile()
+            );
+            adjectives = new FileInputStream(
+                    AuctionMain.class.getResource("adjectives.txt").getFile()
+            );
         } catch (FileNotFoundException e) {
             System.out.println("world broke");
         }

@@ -84,9 +84,9 @@ public class MainController {
         Item item = (Item) r.getData();
 
         // if the highest bidder is not this agent
-        if (item.getHighestBidder() != this.accountId) {
+        if (item.getBidderId() != this.accountId) {
             this.auctionClient.sendRequest(new Request("accounts.get",
-                    "id", Integer.toString(item.getHighestBidder())));
+                    "id", Integer.toString(item.getBidderId())));
             Account bidder = (Account) this.auctionClient.waitForResponse().getData();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

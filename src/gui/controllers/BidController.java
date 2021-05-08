@@ -30,7 +30,7 @@ public class BidController {
 
     public void setItem(Item item, int itemId) {
         this.itemName.setText(item.getName());
-        this.highestBid.setText(Integer.toString(item.getHighestBidder()));
+        this.highestBid.setText(Integer.toString(item.getBidderId()));
         this.itemId = itemId;
     }
 

@@ -16,6 +16,11 @@ import java.net.UnknownHostException;
 
 public class BankMain {
     public static void main(String[] args) {
+        if (args.length != 1) {
+            System.err.println("Usage: java -jar bank.jar <port>");
+            System.exit(1);
+        }
+
         Resource accounts = new Resource<Account>("accounts",
                 () -> new Account("", 0, 0));
 
@@ -30,7 +35,7 @@ public class BankMain {
 
         DataStore.instantiate(accounts, auctions);
 
-        Server server = new Server(37281);
+        Server server = new Server(Integer.parseInt(args[0]));
 
         server.addEndpoint(new Endpoint("accounts.create",
                 new AccountsCreate(), "name", "funds"));
