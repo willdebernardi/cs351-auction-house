@@ -21,4 +21,8 @@ public class Item {
     public String getName() {
         return name;
     }
+
+    public int getHighestBidder() {
+        return bidderId;
+    }
 }
