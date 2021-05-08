@@ -18,7 +18,7 @@ public class ItemView extends HBox {
     private Consumer<Integer> onBid;
 
     /**
-     * Retrieves the item specified by itemId and constructs a GUI view around
+     * Retrieves the item specified by itemId and constructs a gui.controllers.GUI view around
      * it
      *
      * @param itemId the item id
