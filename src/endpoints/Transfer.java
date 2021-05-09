@@ -26,7 +26,7 @@ public class Transfer implements Function<Request, Response> {
         Resource<Account> accounts = DataStore.getInstance()
                                               .getResource("accounts");
         Account a1 = (Account) accounts.getResource(id1);
-        Account a2 = (Account) accounts.getResource(id1);
+        Account a2 = (Account) accounts.getResource(id2);
 
         try {
             a1 = a1.removeFunds(funds);

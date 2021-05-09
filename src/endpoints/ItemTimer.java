@@ -24,17 +24,21 @@ public class ItemTimer extends TimerTask {
     @Override
     public void run() {
         Resource<Item> items = DataStore.getInstance().getResource("items");
-        Resource<Integer> auctionId = DataStore.getInstance().getResource("auctionId");
+        // retrieve auction house's bank account id
+        int auctionId = (int) DataStore.getInstance()
+                                       .getResource("auctionId")
+                                       .getResource(1);
         Item item = items.getResource(itemId);
         if(funds == item.getHighestBid()) {
+            client.setOnEvent(this::handleEvent);
+            client.sendRequest(new Request(
+                    "listen",
+                    "url", "accounts." + Integer.toString(auctionId))
+            );
             client.sendRequest(new Request(
                     "accounts.unblock",
                     "id", String.valueOf(accountId)));
-            client.sendRequest(new Request(
-                    "listen",
-                    "url", "accounts." + auctionId.toString())
-            );
-            client.setOnEvent(this::handleEvent);
+            client.waitForResponse();
             item = item.newWinner(accountId);
             items.putResource(itemId, item);
         }
