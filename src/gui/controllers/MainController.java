@@ -31,6 +31,7 @@ public class MainController {
     public void connectToAuction(InetAddress host, int port) {
         this.auctionClient = new Client(host, port);
         this.auctionClient.connect();
+        this.auctionClient.setOnEvent(this::handleEvent);
     }
 
     /**
@@ -53,17 +54,6 @@ public class MainController {
         for (int id : itemIds) {
             itemBox.getChildren().add(new ItemView(id, accountId, auctionClient));
         }
-    }
-
-    /**
-     * Connects the client in this controller to the given auction house server
-     *
-     * @param host host of the auction house server
-     * @param port port of the auction house server
-     */
-    public void setAuctionHostAndPort(InetAddress host, int port) {
-        this.auctionClient = new Client(host, port);
-        this.auctionClient.setOnEvent(this::handleEvent);
     }
 
     // called when the client receives an event

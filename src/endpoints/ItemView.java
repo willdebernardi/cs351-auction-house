@@ -22,6 +22,6 @@ public class ItemView implements Function<Request, Response> {
         Resource<Item> items = DataStore.getInstance().getResource("items");
         Item item = items.getResource(id);
 
-        return new Response("Item requested: " + item.getName(), null, Response.Type.OK);
+        return new Response("", item, Response.Type.OK);
     }
 }

@@ -33,6 +33,7 @@ public class Client {
     // response is received
     private AtomicBoolean received;
     private Response response;
+    private ExecutorService threadPool;
 
     public Client(InetAddress ipAddress, int port) {
         this.onEvent = (r) -> {};
@@ -41,6 +42,15 @@ public class Client {
         this.port = port;
         this.receivedSignal = new CountDownLatch(1);
         this.received = new AtomicBoolean(false);
+        this.threadPool = Executors.newCachedThreadPool();
+    }
+
+    public InetAddress getHost() {
+        return ipAddress;
+    }
+
+    public int getPort() {
+        return port;
     }
 
     public void connect() {
@@ -55,9 +65,18 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ExecutorService threadPool = Executors.newCachedThreadPool();
         //listenToInputStream is now runnable
         threadPool.execute(this::listenToInputStream);
+    }
+
+    public void stop() {
+        try {
+            this.clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        this.threadPool.shutdown();
     }
 
     public void sendRequest(Request r) {
@@ -82,6 +101,7 @@ public class Client {
      */
     public Response waitForResponse() {
         if (this.received.get()) {
+            received.set(false);
             return this.response;
         }
         // wait for the countdown latch to signal
@@ -111,6 +131,7 @@ public class Client {
                 // signal to main thread that a response has been received
                 // incase waitForResponse is being used.
                 receivedSignal.countDown();
+                receivedSignal = new CountDownLatch(1);
                 onResponse.accept((Response) obj);
             } else {
                 System.out.println("Object not response or event");

@@ -45,7 +45,7 @@ public class AuctionMain {
         Response r = client.waitForResponse();
 
         Resource items = new Resource<Item>("items", AuctionMain::generateItem);
-        int randomNumber = new Random().nextInt(7);
+        int randomNumber = new Random().nextInt(3) + 5;
         for(int i = 0; i < randomNumber; i++) {
             items.create();
         }
@@ -62,6 +62,8 @@ public class AuctionMain {
                 new ItemsList()));
         server.addEndpoint(new Endpoint("items.bid",
                 new Bid(address, port)));
+
+        server.run();
     }
 
     public static Item generateItem() {

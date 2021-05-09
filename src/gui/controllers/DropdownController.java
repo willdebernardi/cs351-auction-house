@@ -1,9 +1,14 @@
 package gui.controllers;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import resources.Auction;
 import server.Client;
 import server.Request;
@@ -19,6 +24,7 @@ public class DropdownController  {
     private ComboBox<Auction> auctionHouseComboBox;
     @FXML
     private Button submitButton;
+    private Client client;
 
     public void initializeComboBox(Client client) {
         client.sendRequest(new Request("auctions.list"));
@@ -27,16 +33,35 @@ public class DropdownController  {
         for (Auction auction : auctionSet) {
             auctionHouseComboBox.getItems().add(auction);
         }
-        dropdownEvent();
+        this.client = client;
     }
 
-    public void dropdownEvent() {
+    public void dropdownEvent(Event e) {
         try {
             Auction auctionSelected = auctionHouseComboBox.getValue();
-            System.out.println(auctionSelected.toString());
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/gui/fxml/main.fxml")
+            );
+            Parent p = loader.load();
+
+            MainController controller = loader.getController();
+            controller.connectToAuction(
+                    auctionSelected.getIp(),
+                    auctionSelected.getPort()
+            );
+            controller.connectToBank(
+                    client.getHost(),
+                    client.getPort()
+            );
+            controller.refresh();
+
+            client.stop();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(p));
+            stage.show();
         }
         catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
     }
 }

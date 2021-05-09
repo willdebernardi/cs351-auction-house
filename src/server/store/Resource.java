@@ -97,4 +97,11 @@ public class Resource<T> {
     public Set<T> list() {
         return new HashSet<>(this.resources.values());
     }
+
+    /**
+     * @return all of the ids for this resource
+     */
+    public Set<Integer> listIds() {
+        return this.resources.keySet();
+    }
 }
