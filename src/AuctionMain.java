@@ -54,7 +54,7 @@ public class AuctionMain {
         int id = auctionAccountId.create();
         auctionAccountId.putResource(id, r.getData());
 
-        DataStore.instantiate(items);
+        DataStore.instantiate(items, auctionAccountId);
 
         server.addEndpoint(new Endpoint("items.get",
                 new ItemView(), "id"));

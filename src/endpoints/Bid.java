@@ -37,28 +37,37 @@ public class Bid implements Function<Request, Response> {
                     null, Response.Type.ERROR);
         }
 
-        Resource<Account> accounts = DataStore.getInstance().getResource("accounts");
         Resource<Item> items = DataStore.getInstance().getResource("items");
-        Account a = accounts.getResource(accountId);
         Item i = items.getResource(itemId);
 
-        if(funds < i.getHighestBid()) {
+        if(funds <= i.getHighestBid()) {
             return new Response("Bid amount too low",
                     null, Response.Type.ERROR);
         }
-        try {
-            a.block(funds);
-        } catch(IllegalStateException e) {
-            return new Response("Not enough funds in account.",
+
+        if (accountId == i.getBidderId()) {
+            return new Response("You can't outbid yourself.",
                     null, Response.Type.ERROR);
         }
 
+        client.sendRequest(new Request("accounts.block",
+        "funds", Integer.toString(funds),
+                    "id", Integer.toString(accountId)
+        ));
+
+        Response r = client.waitForResponse();
+        // if there is an error, relay the error response back to the agent
+        if (r.getType() == Response.Type.ERROR) {
+            return r;
+        }
+
         int bidderId = i.getBidderId();
-        i.placeBid(funds, accountId);
+        i = i.placeBid(funds, accountId);
+        items.putResource(itemId, i);
         client.sendRequest(new Request("accounts.unblock",
                 "id", String.valueOf(bidderId)));
         timer.schedule(new ItemTimer(itemId, funds, accountId, client), 30000);
 
-        return null;
+        return new Response("", null, Response.Type.OK);
     }
 }

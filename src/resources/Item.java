@@ -37,4 +37,8 @@ public class Item implements Serializable {
     public int getBidderId() {
         return bidderId;
     }
+
+    public int getWinnerId() {
+        return winnerId;
+    }
 }

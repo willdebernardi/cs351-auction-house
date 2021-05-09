@@ -55,10 +55,18 @@ public class DropdownController  {
             );
             controller.refresh();
 
+            // create bank account;
+            client.sendRequest(new Request("accounts.create",
+                    "name", "agent", "funds", "10000"));
+            int id = (int) client.waitForResponse().getData();
+            controller.setAccountId(id);
+
             client.stop();
             Stage stage = new Stage();
             stage.setScene(new Scene(p));
             stage.show();
+
+            mainPane.getScene().getWindow().hide();
         }
         catch (Exception ex) {
             ex.printStackTrace();

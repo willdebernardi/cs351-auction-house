@@ -27,8 +27,13 @@ public class ItemTimer extends TimerTask {
         Resource<Integer> auctionId = DataStore.getInstance().getResource("auctionId");
         Item item = items.getResource(itemId);
         if(funds == item.getHighestBid()) {
-            client.sendRequest(new Request("accounts.unblock", "id", String.valueOf(accountId)));
-            client.sendRequest(new Request("listen", "account." + auctionId.toString()));
+            client.sendRequest(new Request(
+                    "accounts.unblock",
+                    "id", String.valueOf(accountId)));
+            client.sendRequest(new Request(
+                    "listen",
+                    "url", "account." + auctionId.toString())
+            );
             client.setOnEvent(this::handleEvent);
             item = item.newWinner(accountId);
             items.putResource(itemId, item);

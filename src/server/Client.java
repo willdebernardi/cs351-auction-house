@@ -124,7 +124,8 @@ public class Client {
             }
 
             if (obj instanceof Event) {
-                onEvent.accept((Event) obj);
+                Event e = (Event) obj;
+                this.threadPool.execute(() -> onEvent.accept(e));
             } else if (obj instanceof Response) {
                 this.response = (Response) obj;
                 received.set(true);

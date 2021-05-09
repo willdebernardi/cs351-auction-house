@@ -148,7 +148,11 @@ public class Server {
                         continue;
                     }
                     Endpoint endpoint = endpoints.get(r.getEndpointUrl());
-                    os.writeObject(endpoint.call(r));
+                    try {
+                        os.writeObject(endpoint.call(r));
+                    } catch (Exception e) {
+                        errorMessage("Internal error: " + e.getMessage());
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

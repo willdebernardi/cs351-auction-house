@@ -25,12 +25,12 @@ public class BidController {
     @FXML
     TextField bidField;
 
-    int itemId;
-    int accountId;
+    private int itemId;
+    private int accountId;
 
     public void setItem(Item item, int itemId) {
         this.itemName.setText(item.getName());
-        this.highestBid.setText(Integer.toString(item.getBidderId()));
+        this.highestBid.setText(Integer.toString(item.getHighestBid()));
         this.itemId = itemId;
     }
 
@@ -47,7 +47,13 @@ public class BidController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(r.getMessage());
             alert.showAndWait();
+            return;
         }
+
+        auctionClient.sendRequest(new Request(
+                "listen",
+                "url", "items." + Integer.toString(itemId)
+        ));
 
         bidField.getScene().getWindow().hide();
     }
