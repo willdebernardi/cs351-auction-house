@@ -79,7 +79,7 @@ public class Client {
         this.threadPool.shutdown();
     }
 
-    public void sendRequest(Request r) {
+    public synchronized void sendRequest(Request r) {
         received.set(false);
         try {
             os.writeObject(r);
