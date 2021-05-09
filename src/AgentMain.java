@@ -29,7 +29,6 @@ public class AgentMain extends Application {
             Parent root = loader.load();
             DropdownController controller = loader.getController();
 
-
             Client client = new Client(ipAddress, port);
             client.connect();
             controller.initializeComboBox(client);

@@ -36,6 +36,7 @@ public class ItemView extends HBox {
         this.client = client;
         this.itemId = itemId;
         this.onBid = (i) -> {};
+        this.setSpacing(50);
 
         this.getChildren().add(nameLabel);
         this.getChildren().add(bidButton);

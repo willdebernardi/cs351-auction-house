@@ -11,12 +11,14 @@
             fx:controller="gui.controllers.MainController"
             prefHeight="400.0" prefWidth="600.0">
     <top>
-        <HBox>
+        <HBox alignment="CENTER" spacing="50">
             <Label fx:id="fundsLabel"/>
             <Button text="Refresh" onAction="#refresh"/>
         </HBox>
     </top>
     <center>
-        <VBox fx:id="itemBox"/>
+        <HBox alignment="CENTER">
+            <VBox fx:id="itemBox" alignment="CENTER"/>
+        </HBox>
     </center>
 </BorderPane>

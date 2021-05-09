@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Font;
 import resources.Item;
 import server.Client;
 import server.Request;
@@ -30,8 +31,11 @@ public class BidController {
 
     public void setItem(Item item, int itemId) {
         this.itemName.setText(item.getName());
-        this.highestBid.setText(Integer.toString(item.getHighestBid()));
+        this.highestBid.setText(
+                "Highest bid: " + Integer.toString(item.getHighestBid())
+        );
         this.itemId = itemId;
+        itemName.setFont(new Font(20));
     }
 
     public void confirm() {

@@ -105,7 +105,7 @@ public class MainController {
         }
 
         // if the highest bidder is not this agent
-        if (item.getBidderId() != this.accountId) {
+        else if (item.getBidderId() != this.accountId) {
             Platform.runLater(() -> {
                 this.auctionClient.sendRequest(new Request("accounts.get",
                         "id", Integer.toString(item.getBidderId())));
@@ -154,7 +154,7 @@ public class MainController {
         Account a = (Account) r.getData();
         int funds = a.getFunds();
         Platform.runLater(() -> {
-            this.fundsLabel.setText(Integer.toString(funds));
+            this.fundsLabel.setText("Funds: " + Integer.toString(funds));
         });
     }
 
