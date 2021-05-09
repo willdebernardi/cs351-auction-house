@@ -49,23 +49,20 @@ public class DropdownController  {
                     auctionSelected.getIp(),
                     auctionSelected.getPort()
             );
-            controller.connectToBank(
-                    client.getHost(),
-                    client.getPort()
-            );
-            controller.refresh();
 
             // create bank account;
             client.sendRequest(new Request("accounts.create",
                     "name", "agent", "funds", "10000"));
             int id = (int) client.waitForResponse().getData();
             controller.setAccountId(id);
+            controller.setAuctionAccountId(auctionSelected.getAccountId());
 
-            client.stop();
+            controller.connectToBank(client);
             Stage stage = new Stage();
             stage.setScene(new Scene(p));
             stage.show();
 
+            controller.refresh();
             mainPane.getScene().getWindow().hide();
         }
         catch (Exception ex) {

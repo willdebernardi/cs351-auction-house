@@ -27,6 +27,7 @@ public class Block implements Function<Request, Response> {
         Account a = accounts.getResource(id);
 
         a = a.block(funds);
+        accounts.putResource(id, a);
 
         return new Response("", null, Response.Type.OK);
     }

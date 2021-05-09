@@ -1,9 +1,4 @@
-import endpoints.AccountsCreate;
-import endpoints.AuctionsCreate;
-import endpoints.AuctionsList;
-import endpoints.Block;
-import endpoints.Transfer;
-import endpoints.Unblock;
+import endpoints.*;
 import resources.Account;
 import resources.Auction;
 import server.Endpoint;
@@ -28,7 +23,7 @@ public class BankMain {
         try {
             final InetAddress localhost = InetAddress.getLocalHost();
             auctions = new Resource<Auction>("auctions",
-                    () -> new Auction(localhost, 5398));
+                    () -> new Auction(localhost, 5398, 0));
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -40,7 +35,9 @@ public class BankMain {
         server.addEndpoint(new Endpoint("accounts.create",
                 new AccountsCreate(), "name", "funds"));
         server.addEndpoint(new Endpoint("auctions.create",
-                new AuctionsCreate(), "ip", "port"));
+                new AuctionsCreate(), "ip", "port", "accountId"));
+        server.addEndpoint(new Endpoint("accounts.get",
+                new AccountsGet(), "id"));
         server.addEndpoint(new Endpoint("auctions.list",
                 new AuctionsList()));
         server.addEndpoint(new Endpoint("accounts.transfer",

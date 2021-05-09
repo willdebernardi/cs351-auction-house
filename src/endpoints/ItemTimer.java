@@ -32,7 +32,7 @@ public class ItemTimer extends TimerTask {
                     "id", String.valueOf(accountId)));
             client.sendRequest(new Request(
                     "listen",
-                    "url", "account." + auctionId.toString())
+                    "url", "accounts." + auctionId.toString())
             );
             client.setOnEvent(this::handleEvent);
             item = item.newWinner(accountId);
@@ -43,5 +43,6 @@ public class ItemTimer extends TimerTask {
     public void handleEvent(Event event) {
         Resource<Item> items = DataStore.getInstance().getResource("items");
         items.removeResource(itemId);
+        items.create();
     }
 }

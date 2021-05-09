@@ -40,9 +40,12 @@ public class AuctionMain {
         String hostAddress = serverAddress.getHostAddress();
         String hostPort = String.valueOf(server.getPort());
         client.connect();
+        client.sendRequest(new Request("accounts.create",
+                "name", "auction", "funds", "0"));
+        int accountId = (int) client.waitForResponse().getData();
         client.sendRequest(new Request("auctions.create",
-                "ip", hostAddress, "port", hostPort));
-        Response r = client.waitForResponse();
+                "ip", hostAddress, "port", hostPort,
+                "accountId", Integer.toString(accountId)));
 
         Resource items = new Resource<Item>("items", AuctionMain::generateItem);
         int randomNumber = new Random().nextInt(3) + 5;
@@ -52,7 +55,7 @@ public class AuctionMain {
         Resource auctionAccountId = new Resource<Integer>("auctionId",
                 () -> 0);
         int id = auctionAccountId.create();
-        auctionAccountId.putResource(id, r.getData());
+        auctionAccountId.putResource(id, accountId);
 
         DataStore.instantiate(items, auctionAccountId);
 

@@ -8,25 +8,20 @@ import server.store.Resource;
 
 import java.util.function.Function;
 
-public class Unblock implements Function<Request, Response> {
+public class AccountsGet implements Function<Request, Response> {
 
     @Override
-    public Response apply(Request request) {
+    public Response apply(Request r) {
         int id = 0;
         try {
-            id = Integer.parseInt(request.getParameter("id"));
+            id = Integer.parseInt(r.getParameter("id"));
         } catch (NumberFormatException e) {
-            return new Response("Invalid numerical values.",
-                    null, Response.Type.ERROR);
+            return new Response("Invalid ID", null, Response.Type.ERROR);
         }
 
         Resource<Account> accounts = DataStore.getInstance()
                                               .getResource("accounts");
         Account a = accounts.getResource(id);
-
-        a = a.unblock();
-        accounts.putResource(id, a);
-
-        return new Response("", null, Response.Type.OK);
+        return new Response("", a, Response.Type.OK);
     }
 }

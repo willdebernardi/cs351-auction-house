@@ -108,7 +108,7 @@ public class Client {
         try {
             receivedSignal.await();
             return this.response;
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

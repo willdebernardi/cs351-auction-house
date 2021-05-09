@@ -19,7 +19,7 @@ public class Account implements Serializable {
     }
 
     public int getFunds() {
-        return funds;
+        return funds-blocked;
     }
 
     /**

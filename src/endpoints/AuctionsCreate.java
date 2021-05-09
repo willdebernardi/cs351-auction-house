@@ -27,15 +27,17 @@ public class AuctionsCreate implements Function<Request, Response> {
         }
 
         int port = 0;
+        int accountId = 0;
         try {
             port = Integer.parseInt(request.getParameter("port"));
+            accountId = Integer.parseInt(request.getParameter("accountId"));
         } catch (NumberFormatException e) {
             return new Response(
                     "Invalid port.", null, Response.Type.ERROR
             );
         }
 
-        Auction auction = new Auction(addr, port);
+        Auction auction = new Auction(addr, port, accountId);
         Resource auctions = DataStore.getInstance().getResource("auctions");
         int id = auctions.create();
         auctions.putResource(id, auction);

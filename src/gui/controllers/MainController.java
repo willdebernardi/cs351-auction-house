@@ -49,10 +49,9 @@ public class MainController {
     /**
      * Connects to the bank server at the given host and port number.
      */
-    public void connectToBank(InetAddress host, int port) {
-        this.bankClient = new Client(host, port);
+    public void connectToBank(Client c) {
+        this.bankClient = c;
         this.bankClient.setOnEvent(this::handleEvent);
-        this.bankClient.connect();
         this.bankClient.sendRequest(new Request("listen",
                 "url", "accounts." + accountId));
     }
@@ -71,6 +70,7 @@ public class MainController {
             iv.setOnBid(this::onBidPressed);
             itemBox.getChildren().add(iv);
         }
+        updateFundsLabel();
     }
 
     // called when the client receives an event
@@ -80,8 +80,9 @@ public class MainController {
         } else if (e.getResourceName().equals("accounts")) {
             // no need to pass ID, since the only account we're listening to is
             // our own.
-            this.handleAccountChanged();
+            this.updateFundsLabel();
         }
+        Platform.runLater(this::refresh);
     }
 
     private void handleItemChanged(int id) {
@@ -90,13 +91,26 @@ public class MainController {
         Response r = this.auctionClient.waitForResponse();
         Item item = (Item) r.getData();
 
+        // if a winner that isn't this agent has been picked
+        if (item.getWinnerId() != -1 && item.getWinnerId() != accountId) {
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                String msg = String.format(
+                        "You have lost the auction on %s",
+                        item.getName()
+                );
+                alert.setContentText(msg);
+                alert.show();
+            });
+        }
+
         // if the highest bidder is not this agent
         if (item.getBidderId() != this.accountId) {
-            this.auctionClient.sendRequest(new Request("accounts.get",
-                    "id", Integer.toString(item.getBidderId())));
-            Account bidder = (Account) this.auctionClient.waitForResponse().getData();
-
             Platform.runLater(() -> {
+                this.auctionClient.sendRequest(new Request("accounts.get",
+                        "id", Integer.toString(item.getBidderId())));
+                Response response = this.bankClient.waitForResponse();
+                Account bidder = (Account) response.getData();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 String msg = String.format(
                         "You have been outbid by %s on %s",
@@ -114,17 +128,34 @@ public class MainController {
                 );
                 alert.setContentText(msg);
                 alert.show();
+                payToAuction(item.getHighestBid());
             });
         }
     }
 
-    private void handleAccountChanged() {
+    private void payToAuction(int funds) {
+        Response r = null;
+        this.bankClient.sendRequest(new Request("accounts.transfer",
+                "id1", Integer.toString(this.accountId),
+                "id2", Integer.toString(this.auctionAccountId),
+                "funds", Integer.toString(funds)
+        ));
+        r = bankClient.waitForResponse();
+        if (r.getType() != Response.Type.OK) {
+            System.out.println("Error transferring funds to auction account.");
+        }
+    }
+
+    private void updateFundsLabel() {
         this.bankClient.sendRequest(new Request("accounts.get",
                 "id", Integer.toString(this.accountId)));
         Response r = this.bankClient.waitForResponse();
 
-        int funds = ((Account) r.getData()).getFunds();
-        this.fundsLabel.setText(Integer.toString(funds));
+        Account a = (Account) r.getData();
+        int funds = a.getFunds();
+        Platform.runLater(() -> {
+            this.fundsLabel.setText(Integer.toString(funds));
+        });
     }
 
     private void onBidPressed(int itemId) {
@@ -157,5 +188,9 @@ public class MainController {
 
     public void setAccountId(int id) {
         this.accountId = id;
+    }
+
+    public void setAuctionAccountId(int id) {
+        this.auctionAccountId = id;
     }
 }
