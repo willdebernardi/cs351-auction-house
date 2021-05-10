@@ -46,6 +46,8 @@ public class BankMain {
                 new Block(), "id", "funds"));
         server.addEndpoint(new Endpoint("accounts.unblock",
                 new Unblock(), "id"));
+        server.addEndpoint(new Endpoint("auctions.deregister",
+                new AuctionRemove(), "id"));
 
         server.run();
     }

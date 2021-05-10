@@ -42,6 +42,6 @@ public class AuctionsCreate implements Function<Request, Response> {
         int id = auctions.create();
         auctions.putResource(id, auction);
 
-        return new Response("", auction, Response.Type.OK);
+        return new Response("", id, Response.Type.OK);
     }
 }

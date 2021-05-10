@@ -46,6 +46,7 @@ public class AuctionMain {
         client.sendRequest(new Request("auctions.create",
                 "ip", hostAddress, "port", hostPort,
                 "accountId", Integer.toString(accountId)));
+        int auctionId = (int) client.waitForResponse().getData();
 
         Resource items = new Resource<Item>("items", AuctionMain::generateItem);
         int randomNumber = new Random().nextInt(3) + 5;
@@ -66,6 +67,9 @@ public class AuctionMain {
         server.addEndpoint(new Endpoint("items.bid",
                 new Bid(address, port)));
 
+        Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownHook(
+                client, auctionId
+        )));
         server.run();
     }
 
