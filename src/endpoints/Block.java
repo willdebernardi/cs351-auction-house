@@ -1,3 +1,8 @@
+/**
+ * Endpoint for blocking funds from an account.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import resources.Account;

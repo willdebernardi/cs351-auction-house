@@ -1,3 +1,8 @@
+/**
+ * Endpoint for placing a bid on an item.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import resources.Account;

@@ -1,5 +1,10 @@
+/**
+ * A listener on a resource that is to be notified every time that resource
+ * is changed.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package server.store;
-
 
 import server.Event;
 

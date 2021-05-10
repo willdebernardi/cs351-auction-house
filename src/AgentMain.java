@@ -1,3 +1,8 @@
+/**
+ * Main class of the JavaFX agent application
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 import gui.controllers.DropdownController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

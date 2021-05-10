@@ -1,3 +1,8 @@
+/**
+ * Controller for the auction selection window.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package gui.controllers;
 
 import javafx.event.Event;

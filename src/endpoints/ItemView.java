@@ -1,3 +1,8 @@
+/**
+ * Endpoint for retrieving an item by ID.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import resources.Item;

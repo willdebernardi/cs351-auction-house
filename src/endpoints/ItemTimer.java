@@ -1,3 +1,12 @@
+/**
+ * TimerTask that checks if a higher bid has been placed on an item since the
+ * time the timer task was constructed. If there has been no higher bid, we set
+ * a winner, thus firing events to all listeners of the item, and wait for the
+ * appropriate amount of funds to be transferred to the auction house's bank
+ * account.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import resources.Item;

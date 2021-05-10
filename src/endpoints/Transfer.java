@@ -1,3 +1,8 @@
+/**
+ * Endpoint for transferring some amount of funds from one account to another.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import resources.Account;

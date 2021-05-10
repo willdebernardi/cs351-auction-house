@@ -1,3 +1,8 @@
+/**
+ * Endpoint for listing all items in an auction house
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import resources.Item;

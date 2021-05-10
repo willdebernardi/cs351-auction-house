@@ -1,3 +1,8 @@
+/**
+ * Endpoint for listing all auctions registered with the bank server.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import server.Request;

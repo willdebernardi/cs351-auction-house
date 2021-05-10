@@ -1,3 +1,8 @@
+/**
+ * Removes all fund blockages from an account.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import resources.Account;

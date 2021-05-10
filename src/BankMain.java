@@ -1,3 +1,9 @@
+/**
+ * Main class of the bank server.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
+
 import endpoints.*;
 import resources.Account;
 import resources.Auction;

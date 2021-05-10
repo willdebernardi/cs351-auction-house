@@ -1,3 +1,8 @@
+/**
+ * Endpoint for registering an auction house server with the bank server.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import resources.Auction;

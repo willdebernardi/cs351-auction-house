@@ -1,3 +1,9 @@
+/**
+ * Represents a registration entry in the bank for an auction house (with the IP
+ * and the port number).
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package resources;
 
 import java.io.Serializable;
@@ -13,6 +19,9 @@ public class Auction implements Serializable {
      *
      * @param ip the ip of the auction house server
      * @param port the port of the auction house server
+     * @param accountId the ID of the bank account associated with this auction
+     *                  house (that is, where an agent should transfer funds
+     *                  after a successful bidding)
      */
     public Auction(InetAddress ip, int port, int accountId) {
         this.ip = ip;

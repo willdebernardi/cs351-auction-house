@@ -1,6 +1,8 @@
 /**
  * Ran when the auction server shuts down in order to deregister the auction
  * house from the bank
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
  */
 import server.Client;
 import server.Request;

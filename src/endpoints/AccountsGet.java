@@ -1,3 +1,8 @@
+/**
+ * Endpoint for retrieving an account by Id.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import resources.Account;

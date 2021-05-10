@@ -1,3 +1,8 @@
+/**
+ * Represents an item being bid on in an auction.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package resources;
 
 import java.io.Serializable;

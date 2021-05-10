@@ -1,3 +1,8 @@
+/**
+ * Represents a bank account.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package resources;
 
 import java.io.Serializable;

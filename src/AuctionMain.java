@@ -1,3 +1,8 @@
+/**
+ * Main class for the Auction server.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 import endpoints.Bid;
 import endpoints.ItemView;
 import endpoints.ItemsList;

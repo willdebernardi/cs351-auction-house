@@ -1,3 +1,8 @@
+/**
+ * Endpoint for account creation
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import resources.Account;

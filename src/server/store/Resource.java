@@ -1,3 +1,9 @@
+/**
+ * Collection of objects associated with IDs, capable of being listened on by
+ * Listeners.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package server.store;
 
 import server.Event;

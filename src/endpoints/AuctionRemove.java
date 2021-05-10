@@ -1,3 +1,8 @@
+/**
+ * Endpoint for deleting an account.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package endpoints;
 
 import resources.Auction;

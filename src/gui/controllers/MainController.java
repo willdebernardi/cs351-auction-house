@@ -1,9 +1,12 @@
+/**
+ * Main controller for the GUI.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package gui.controllers;
 
-import endpoints.Bid;
 import gui.ItemView;
 import javafx.application.Platform;
-import javafx.concurrent.ScheduledService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,9 +25,6 @@ import server.Response;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Set;
-import java.util.Stack;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 public class MainController {
     @FXML

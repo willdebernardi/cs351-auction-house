@@ -1,3 +1,8 @@
+/**
+ * GUI component for displaying an item.
+ *
+ * @author Will Debernardi, Isaiah Martell, Christopher Medlin
+ */
 package gui;
 
 import javafx.scene.control.Button;
