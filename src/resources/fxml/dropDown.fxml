@@ -5,9 +5,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.TextField?>
 <Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.DropdownController">
    <children>
       <ComboBox fx:id="auctionHouseComboBox" layoutX="199.0" layoutY="33.0" prefHeight="37.0" prefWidth="203.0" promptText="Select Auction House" />
+      <TextField fx:id="nameField" text="account name" layoutX ="199.0" layoutY="236.0"/>
       <Button onAction="#dropdownEvent" fx:id="submitButton" layoutX="239.0" layoutY="336.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="123.0" text="Submit">
          <font>
             <Font size="15.0" />

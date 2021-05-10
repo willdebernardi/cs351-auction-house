@@ -12,7 +12,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import resource.Auction;
 import server.Client;
@@ -29,6 +31,8 @@ public class DropdownController  {
     private ComboBox<Auction> auctionHouseComboBox;
     @FXML
     private Button submitButton;
+    @FXML
+    private TextField nameField;
     private Client client;
 
     public void initializeComboBox(Client client) {
@@ -57,7 +61,7 @@ public class DropdownController  {
 
             // create bank account;
             client.sendRequest(new Request("accounts.create",
-                    "name", "agent", "funds", "10000"));
+                    "name", nameField.getText(), "funds", "10000"));
             int id = (int) client.waitForResponse().getData();
             controller.setAccountId(id);
             controller.setAuctionAccountId(auctionSelected.getAccountId());
