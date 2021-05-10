@@ -5,7 +5,7 @@
  */
 package endpoints;
 
-import resources.Account;
+import resource.Account;
 import server.Request;
 import server.Response;
 import server.store.DataStore;

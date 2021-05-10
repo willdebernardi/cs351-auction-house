@@ -5,7 +5,7 @@
  */
 package endpoints;
 
-import resources.Auction;
+import resource.Auction;
 import server.Request;
 import server.Response;
 import server.store.DataStore;

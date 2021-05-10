@@ -8,7 +8,7 @@ package gui;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import resources.Item;
+import resource.Item;
 import server.Client;
 import server.Request;
 import server.Response;

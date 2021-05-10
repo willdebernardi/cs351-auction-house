@@ -5,8 +5,7 @@
  */
 package endpoints;
 
-import resources.Account;
-import resources.Item;
+import resource.Item;
 import server.Client;
 import server.Request;
 import server.Response;

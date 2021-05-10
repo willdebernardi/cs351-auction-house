@@ -9,7 +9,7 @@
  */
 package endpoints;
 
-import resources.Item;
+import resource.Item;
 import server.Client;
 import server.Event;
 import server.Request;

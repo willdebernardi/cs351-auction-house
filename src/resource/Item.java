@@ -3,7 +3,7 @@
  *
  * @author Will Debernardi, Isaiah Martell, Christopher Medlin
  */
-package resources;
+package resource;
 
 import java.io.Serializable;
 

@@ -15,8 +15,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import resources.Account;
-import resources.Item;
+import resource.Account;
+import resource.Item;
 import server.Client;
 import server.Event;
 import server.Request;
@@ -165,7 +165,7 @@ public class MainController {
         Item item = (Item) r.getData();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "/gui/fxml/bid.fxml"
+                "/resources/fxml/bid.fxml"
         ));
 
         Parent p = null;

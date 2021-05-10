@@ -5,8 +5,8 @@
  */
 
 import endpoints.*;
-import resources.Account;
-import resources.Auction;
+import resource.Account;
+import resource.Auction;
 import server.Endpoint;
 import server.Server;
 import server.store.DataStore;

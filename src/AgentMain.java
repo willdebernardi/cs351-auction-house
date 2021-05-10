@@ -30,7 +30,7 @@ public class AgentMain extends Application {
             int port = Integer.parseInt(argsList.get(1));
 
             FXMLLoader loader = new FXMLLoader(getClass()
-                    .getResource("/gui/fxml/dropDown.fxml"));
+                    .getResource("/resources/fxml/dropDown.fxml"));
             Parent root = loader.load();
             DropdownController controller = loader.getController();
 

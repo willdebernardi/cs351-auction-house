@@ -6,13 +6,11 @@
 import endpoints.Bid;
 import endpoints.ItemView;
 import endpoints.ItemsList;
-import resources.Auction;
-import resources.Item;
+import resource.Item;
 import server.*;
 import server.store.DataStore;
 import server.store.Resource;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.InetAddress;
@@ -26,22 +24,23 @@ public class AuctionMain {
     public static void main(String[] args) {
         Client client = null;
         InetAddress address = null;
+        InetAddress serverAddress = null;
         int port = 0;
         int serverPort = 0;
-        if (args.length == 3) {
+        if (args.length == 4) {
             try {
                 address = InetAddress.getByName(args[0]);
                 port = Integer.parseInt(args[1]);
                 client = new Client(address,port);
+                serverAddress = InetAddress.getByName(args[2]);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
                 System.exit(1);
             }
-            serverPort = Integer.parseInt(args[2]);
+            serverPort = Integer.parseInt(args[3]);
         }
 
         Server server = new Server(serverPort);
-        InetAddress serverAddress = server.getAddress();
         String hostAddress = serverAddress.getHostAddress();
         String hostPort = String.valueOf(server.getPort());
         client.connect();
@@ -79,26 +78,24 @@ public class AuctionMain {
     }
 
     public static Item generateItem() {
-        FileInputStream nouns = null;
-        FileInputStream adjectives = null;
+        Scanner nounScan = null;
+        Scanner adjectScan = null;
         try {
-            nouns = new FileInputStream(
-                    AuctionMain.class.getResource("nouns.txt").getFile()
-            );
-            adjectives = new FileInputStream(
-                    AuctionMain.class.getResource("adjectives.txt").getFile()
-            );
-        } catch (FileNotFoundException e) {
+            nounScan = new Scanner(AuctionMain.class.getResourceAsStream(
+                    "/resources/nouns.txt"
+            ));
+            adjectScan = new Scanner(AuctionMain.class.getResourceAsStream(
+                    "/resources/adjectives.txt"
+            ));
+        } catch (Exception e) {
             System.out.println("world broke");
         }
 
         ArrayList<String> nounList = new ArrayList<>();
         ArrayList<String> adjectList = new ArrayList<>();
-        Scanner nounScan = new Scanner(nouns);
         while(nounScan.hasNext()) {
             nounList.add(nounScan.nextLine());
         }
-        Scanner adjectScan = new Scanner(adjectives);
         while(adjectScan.hasNext()) {
             adjectList.add(adjectScan.nextLine());
         }

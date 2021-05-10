@@ -5,13 +5,12 @@
  */
 package endpoints;
 
-import resources.Auction;
+import resource.Auction;
 import server.Request;
 import server.Response;
 import server.store.DataStore;
 import server.store.Resource;
 
-import javax.xml.crypto.Data;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.function.Function;

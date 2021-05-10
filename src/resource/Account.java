@@ -3,10 +3,9 @@
  *
  * @author Will Debernardi, Isaiah Martell, Christopher Medlin
  */
-package resources;
+package resource;
 
 import java.io.Serializable;
-import java.nio.file.Paths;
 
 public class Account implements Serializable {
     private String name;

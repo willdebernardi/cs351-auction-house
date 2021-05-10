@@ -14,7 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import resources.Auction;
+import resource.Auction;
 import server.Client;
 import server.Request;
 import server.Response;
@@ -45,7 +45,7 @@ public class DropdownController  {
         try {
             Auction auctionSelected = auctionHouseComboBox.getValue();
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/gui/fxml/main.fxml")
+                    getClass().getResource("/resources/fxml/main.fxml")
             );
             Parent p = loader.load();
 
