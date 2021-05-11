@@ -11,17 +11,17 @@
 
     <target name="jar" depends="compile">
         <mkdir dir="build/jars" />
-        <jar destfile="build/jars/bank.jar" basedir="build/classes">
+        <jar destfile="bank.jar" basedir="build/classes">
             <manifest>
                 <attribute name="Main-Class" value="BankMain"/>
             </manifest>
         </jar>
-        <jar destfile="build/jars/auction.jar" basedir="build/classes">
+        <jar destfile="auction.jar" basedir="build/classes">
             <manifest>
                 <attribute name="Main-Class" value="AuctionMain"/>
             </manifest>
         </jar>
-        <jar destfile="build/jars/agent.jar" basedir="build/classes">
+        <jar destfile="agent.jar" basedir="build/classes">
             <manifest>
                 <attribute name="Main-Class" value="AgentMain"/>
             </manifest>
